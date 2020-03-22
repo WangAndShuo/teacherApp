@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.classproject.teacherapp.dao.AppUserinfoMapper" >
+
+    <resultMap id="BaseResultMap" type="com.classproject.teacherapp.entity.AppUserinfo" >
+        <id column="uuid" property="uuid" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="VARCHAR" />
+        <result column="age" property="age" jdbcType="INTEGER" />
+        <result column="brithday" property="brithday" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="school" property="school" jdbcType="VARCHAR" />
+        <result column="college" property="college" jdbcType="VARCHAR" />
+        <result column="education" property="education" jdbcType="VARCHAR" />
+        <result column="grade" property="grade" jdbcType="VARCHAR" />
+        <result column="teacher" property="teacher" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        uuid, name, sex, age, brithday, address, school, college, education, grade, teacher
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from app_userinfo
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from app_userinfo
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.classproject.teacherapp.entity.AppUserinfo" >
+        insert into app_userinfo (uuid, name, sex, 
+            age, brithday, address, 
+            school, college, education, 
+            grade, teacher)
+        values (#{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+            #{age,jdbcType=INTEGER}, #{brithday,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+            #{school,jdbcType=VARCHAR}, #{college,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+            #{grade,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.classproject.teacherapp.entity.AppUserinfo" >
+        insert into app_userinfo
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                uuid,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="sex != null" >
+                sex,
+            </if>
+            <if test="age != null" >
+                age,
+            </if>
+            <if test="brithday != null" >
+                brithday,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+            <if test="school != null" >
+                school,
+            </if>
+            <if test="college != null" >
+                college,
+            </if>
+            <if test="education != null" >
+                education,
+            </if>
+            <if test="grade != null" >
+                grade,
+            </if>
+            <if test="teacher != null" >
+                teacher,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null" >
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="brithday != null" >
+                #{brithday,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null" >
+                #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="college != null" >
+                #{college,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null" >
+                #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null" >
+                #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="teacher != null" >
+                #{teacher,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.classproject.teacherapp.entity.AppUserinfo" >
+        update app_userinfo
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null" >
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="brithday != null" >
+                brithday = #{brithday,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null" >
+                school = #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="college != null" >
+                college = #{college,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null" >
+                education = #{education,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null" >
+                grade = #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="teacher != null" >
+                teacher = #{teacher,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.classproject.teacherapp.entity.AppUserinfo" >
+        update app_userinfo
+        set name = #{name,jdbcType=VARCHAR},
+            sex = #{sex,jdbcType=VARCHAR},
+            age = #{age,jdbcType=INTEGER},
+            brithday = #{brithday,jdbcType=VARCHAR},
+            address = #{address,jdbcType=VARCHAR},
+            school = #{school,jdbcType=VARCHAR},
+            college = #{college,jdbcType=VARCHAR},
+            education = #{education,jdbcType=VARCHAR},
+            grade = #{grade,jdbcType=VARCHAR},
+            teacher = #{teacher,jdbcType=VARCHAR}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+</mapper>

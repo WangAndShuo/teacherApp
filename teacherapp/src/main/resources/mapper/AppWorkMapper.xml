@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.classproject.teacherapp.dao.AppWorkMapper" >
+
+    <resultMap id="BaseResultMap" type="com.classproject.teacherapp.entity.AppWork" >
+        <id column="uuid" property="uuid" jdbcType="VARCHAR" />
+        <result column="work" property="work" jdbcType="VARCHAR" />
+        <result column="work_info" property="workInfo" jdbcType="VARCHAR" />
+        <result column="cre_time" property="creTime" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="inform_time" property="informTime" jdbcType="TIMESTAMP" />
+        <result column="week" property="week" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        uuid, work, work_info, cre_time, user_id, inform_time, week
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from app_work
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from app_work
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.classproject.teacherapp.entity.AppWork" >
+        insert into app_work (uuid, work, work_info, 
+            cre_time, user_id, inform_time, 
+            week)
+        values (#{uuid,jdbcType=VARCHAR}, #{work,jdbcType=VARCHAR}, #{workInfo,jdbcType=VARCHAR}, 
+            #{creTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{informTime,jdbcType=TIMESTAMP}, 
+            #{week,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.classproject.teacherapp.entity.AppWork" >
+        insert into app_work
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                uuid,
+            </if>
+            <if test="work != null" >
+                work,
+            </if>
+            <if test="workInfo != null" >
+                work_info,
+            </if>
+            <if test="creTime != null" >
+                cre_time,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="informTime != null" >
+                inform_time,
+            </if>
+            <if test="week != null" >
+                week,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="work != null" >
+                #{work,jdbcType=VARCHAR},
+            </if>
+            <if test="workInfo != null" >
+                #{workInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="creTime != null" >
+                #{creTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="informTime != null" >
+                #{informTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="week != null" >
+                #{week,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.classproject.teacherapp.entity.AppWork" >
+        update app_work
+        <set >
+            <if test="work != null" >
+                work = #{work,jdbcType=VARCHAR},
+            </if>
+            <if test="workInfo != null" >
+                work_info = #{workInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="creTime != null" >
+                cre_time = #{creTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="informTime != null" >
+                inform_time = #{informTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="week != null" >
+                week = #{week,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.classproject.teacherapp.entity.AppWork" >
+        update app_work
+        set work = #{work,jdbcType=VARCHAR},
+            work_info = #{workInfo,jdbcType=VARCHAR},
+            cre_time = #{creTime,jdbcType=TIMESTAMP},
+            user_id = #{userId,jdbcType=VARCHAR},
+            inform_time = #{informTime,jdbcType=TIMESTAMP},
+            week = #{week,jdbcType=VARCHAR}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+</mapper>

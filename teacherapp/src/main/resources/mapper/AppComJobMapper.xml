@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.classproject.teacherapp.dao.AppComJobMapper" >
+
+    <resultMap id="BaseResultMap" type="com.classproject.teacherapp.entity.AppComJob" >
+        <id column="UUID" property="uuid" jdbcType="VARCHAR" />
+        <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+        <result column="job_info" property="jobInfo" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="stu_id" property="stuId" jdbcType="VARCHAR" />
+        <result column="cre_time" property="creTime" jdbcType="VARCHAR" />
+        <result column="fin_time" property="finTime" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        UUID, job_name, job_info, user_id, stu_id, cre_time, fin_time, address
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select 
+        <include refid="Base_Column_List" />
+        from app_com_job
+        where UUID = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from app_com_job
+        where UUID = #{uuid,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="com.classproject.teacherapp.entity.AppComJob" >
+        insert into app_com_job (UUID, job_name, job_info, 
+            user_id, stu_id, cre_time, 
+            fin_time, address)
+        values (#{uuid,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{jobInfo,jdbcType=VARCHAR}, 
+            #{userId,jdbcType=VARCHAR}, #{stuId,jdbcType=VARCHAR}, #{creTime,jdbcType=VARCHAR}, 
+            #{finTime,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.classproject.teacherapp.entity.AppComJob" >
+        insert into app_com_job
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                UUID,
+            </if>
+            <if test="jobName != null" >
+                job_name,
+            </if>
+            <if test="jobInfo != null" >
+                job_info,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="stuId != null" >
+                stu_id,
+            </if>
+            <if test="creTime != null" >
+                cre_time,
+            </if>
+            <if test="finTime != null" >
+                fin_time,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null" >
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobInfo != null" >
+                #{jobInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="stuId != null" >
+                #{stuId,jdbcType=VARCHAR},
+            </if>
+            <if test="creTime != null" >
+                #{creTime,jdbcType=VARCHAR},
+            </if>
+            <if test="finTime != null" >
+                #{finTime,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.classproject.teacherapp.entity.AppComJob" >
+        update app_com_job
+        <set >
+            <if test="jobName != null" >
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobInfo != null" >
+                job_info = #{jobInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="stuId != null" >
+                stu_id = #{stuId,jdbcType=VARCHAR},
+            </if>
+            <if test="creTime != null" >
+                cre_time = #{creTime,jdbcType=VARCHAR},
+            </if>
+            <if test="finTime != null" >
+                fin_time = #{finTime,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where UUID = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.classproject.teacherapp.entity.AppComJob" >
+        update app_com_job
+        set job_name = #{jobName,jdbcType=VARCHAR},
+            job_info = #{jobInfo,jdbcType=VARCHAR},
+            user_id = #{userId,jdbcType=VARCHAR},
+            stu_id = #{stuId,jdbcType=VARCHAR},
+            cre_time = #{creTime,jdbcType=VARCHAR},
+            fin_time = #{finTime,jdbcType=VARCHAR},
+            address = #{address,jdbcType=VARCHAR}
+        where UUID = #{uuid,jdbcType=VARCHAR}
+    </update>
+</mapper>
