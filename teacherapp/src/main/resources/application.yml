@@ -1,0 +1,7 @@
+http:
+  multipart:
+    enabled: true
+    max-file-size: 10MB #(这里是限制的文件大小)
+    max-request-size: 10MB #(这里是限制的文件大小)
+server:
+  port: 8080
