@@ -17,7 +17,7 @@ public class BaseResponse {
 
 
     // 响应消息
-    private String msg;
+    private String message;
 
     // 响应中的数据
     private Object data;
@@ -27,20 +27,20 @@ public class BaseResponse {
 
     private StatusCode statusCode;
 
-    public static BaseResponse build(Integer status, String msg, Object data) {
-        return new BaseResponse(status, msg, data);
+    public static BaseResponse build(Integer status, String message, Object data) {
+        return new BaseResponse(status, message, data);
     }
 
-    public static BaseResponse build(Integer status, String msg, Object data, Integer code) {
-        return new BaseResponse(status, msg, data,code);
+    public static BaseResponse build(Integer status, String message, Object data, Integer code) {
+        return new BaseResponse(status, message, data,code);
     }
 
     public static BaseResponse build(StatusCode statusCode, Object data) {
         return new BaseResponse(statusCode, data);
     }
 
-    public static BaseResponse build(Integer status, String msg) {
-        return new BaseResponse(status, msg, null);
+    public static BaseResponse build(Integer status, String message) {
+        return new BaseResponse(status, message, null);
     }
 
     public static BaseResponse build(StatusCode statusCode) {
@@ -50,50 +50,41 @@ public class BaseResponse {
     public static BaseResponse build(StatusCode statusCode,Object data,Integer code) {
         return new BaseResponse(statusCode,  data,  code);
     }
-
-    public static BaseResponse ok(Object data) {
-        return new BaseResponse(data);
-    }
-
     public static BaseResponse ok() {
         return new BaseResponse(null);
     }
 
-    public BaseResponse() {
+    private BaseResponse() {
 
     }
 
-    public BaseResponse(Integer status, String msg, Object data) {
-        this.status = status;
-        this.msg = msg;
-        this.data = data;
-    }
-    public BaseResponse(Integer status, String msg, Object data, Integer code) {
-        this.status = status;
-        this.msg = msg;
-        this.data = data;
-        this.code = code;
-    }
-    public BaseResponse(StatusCode statusCode, String msg, Object data) {
-        this.statusCode = statusCode;
-        this.msg = msg;
+
+    public BaseResponse(StatusCode statusCode) {
+        this.status = statusCode.getCode();
+        this.message = statusCode.getMsg();
         this.data = data;
     }
     public BaseResponse(StatusCode StatusCode, Object data) {
         this.status = StatusCode.getCode();
-        this.msg = StatusCode.getMsg();
+        this.message = StatusCode.getMsg();
         this.data = data;
     }
     public BaseResponse(StatusCode StatusCode, Object data, Integer code) {
         this.status = StatusCode.getCode();
-        this.msg = StatusCode.getMsg();
+        this.message = StatusCode.getMsg();
         this.data = data;
         this.code = code;
     }
-    public BaseResponse(Object data) {
-        this.status = 0;
-        this.msg = "OK";
+    public BaseResponse(Integer status, String message, Object data) {
+        this.status = status;
+        this.message = message;
         this.data = data;
+    }
+    public BaseResponse(Integer status, String message, Object data, Integer code) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+        this.code = code;
     }
 
     public Integer getStatus() {
@@ -104,12 +95,12 @@ public class BaseResponse {
         this.status = status;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Object getData() {
@@ -142,7 +133,7 @@ public class BaseResponse {
                     obj = MAPPER.readValue(data.asText(), clazz);
                 }
             }
-            return build(jsonNode.get("status").intValue(), jsonNode.get("msg").asText(), obj);
+            return build(jsonNode.get("status").intValue(), jsonNode.get("message").asText(), obj);
         } catch (Exception e) {
             return null;
         }
@@ -179,7 +170,7 @@ public class BaseResponse {
                 obj = MAPPER.readValue(data.traverse(),
                         MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
             }
-            return build(jsonNode.get("status").intValue(), jsonNode.get("msg").asText(), obj);
+            return build(jsonNode.get("status").intValue(), jsonNode.get("message").asText(), obj);
         } catch (Exception e) {
             return null;
         }
@@ -189,7 +180,7 @@ public class BaseResponse {
     public String toString() {
         return "BaseResponse{" +
                 "status=" + status +
-                ", msg='" + msg + '\'' +
+                ", message='" + message + '\'' +
                 ", data=" + data +
                 '}';
     }

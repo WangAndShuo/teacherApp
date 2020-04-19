@@ -1,4 +1,4 @@
-package com.classproject.teacherapp.codetest;
+package com.classproject.teacherapp.test.codetest;
 
 import lombok.extern.slf4j.Slf4j;
 

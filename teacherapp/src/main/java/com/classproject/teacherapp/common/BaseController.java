@@ -1,10 +1,7 @@
-package com.classproject.teacherapp.controller;
+package com.classproject.teacherapp.common;
 
-import com.classproject.teacherapp.dao.User;
-import com.classproject.teacherapp.util.ExcelBody;
-import com.classproject.teacherapp.util.DateUtils;
-import com.classproject.teacherapp.util.ExcelUtils;
-import com.classproject.teacherapp.util.ImageUtils;
+import com.classproject.teacherapp.mapper.User;
+import com.classproject.teacherapp.util.*;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +24,7 @@ public class BaseController {
 
     @GetMapping("/excel")
     @ApiOperation(notes = "导出excel", value = "导出excel")
-    public void excel(HttpServletResponse response){
+    public BaseResponse excel(HttpServletResponse response){
 
         User user = new User();
         user.setName("12131");
@@ -41,6 +38,7 @@ public class BaseController {
         // 文件名
         String fileName = DateUtils.format(new Date(), DateUtils.YYYYMMDDHHMMSS);
         ExcelUtils.exportXlsx(exportList, cellText, response, fileName, columnWidth);
+        return BaseResponse.build(StatusCode.FAIL);
     }
 
     @GetMapping("/downLoadQrCode")

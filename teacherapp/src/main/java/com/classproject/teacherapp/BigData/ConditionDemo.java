@@ -98,7 +98,6 @@ public class ConditionDemo {
             }
         }).start();
 
-
         new Thread( () -> {
             for (int i = 0; i < 5; i++) {
                 shareData.get3();

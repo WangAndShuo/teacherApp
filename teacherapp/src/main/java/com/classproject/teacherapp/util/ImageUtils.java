@@ -8,7 +8,6 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
 import sun.font.FontDesignMetrics;
 
 import javax.imageio.ImageIO;
@@ -19,14 +18,11 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @Author: zou_cl@suixingpay.com
@@ -95,7 +91,7 @@ public class ImageUtils {
         }
         Font font = new Font("微软雅黑", Font.PLAIN, 32);
         try {
-            ClassPathResource cpr = new ClassPathResource("/static/image/img_qrcode_bg.png");
+            ClassPathResource cpr = new ClassPathResource("/static/image/img_qrcode_bg1.png");
             BufferedImage big = ImageIO.read(cpr.getInputStream());
             Graphics2D g = big.createGraphics();
             int fw = getWordWidth(font, qrNum);

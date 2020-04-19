@@ -32,7 +32,9 @@ class MyThread2 implements Callable<Integer>{
 
 public class CallableDemo2 {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        Future future = new FutureTask(new MyThread2());
-        System.out.println(future.get());
+        FutureTask futureTask = new FutureTask(new MyThread2());
+        Thread thread =  new Thread(futureTask,"AA");
+        thread.start();
+        System.out.println(thread.getName() + ":  " + futureTask.get());
     }
 }

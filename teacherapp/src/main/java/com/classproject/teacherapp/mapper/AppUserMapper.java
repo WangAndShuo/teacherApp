@@ -1,7 +1,10 @@
-package com.classproject.teacherapp.dao;
+package com.classproject.teacherapp.mapper;
 
 import com.classproject.teacherapp.entity.AppUser;
+import org.apache.ibatis.annotations.Mapper;
 
+
+@Mapper
 public interface AppUserMapper {
     int deleteByPrimaryKey(String uuid);
 
@@ -11,9 +14,11 @@ public interface AppUserMapper {
 
     AppUser selectByPrimaryKey(String uuid);
 
-    Integer selectByUser(AppUser appUser);
+    int selectByUser(AppUser appUser);
 
     int updateByPrimaryKeySelective(AppUser record);
 
     int updateByPrimaryKey(AppUser record);
+
+    int getUserByName(String username);
 }

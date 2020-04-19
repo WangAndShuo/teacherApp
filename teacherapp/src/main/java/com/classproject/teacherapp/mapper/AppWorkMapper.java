@@ -1,7 +1,9 @@
-package com.classproject.teacherapp.dao;
+package com.classproject.teacherapp.mapper;
 
 import com.classproject.teacherapp.entity.AppWork;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface AppWorkMapper {
     int deleteByPrimaryKey(String uuid);
 

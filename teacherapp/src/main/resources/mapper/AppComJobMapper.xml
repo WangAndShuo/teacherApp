@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.classproject.teacherapp.dao.AppComJobMapper" >
+<mapper namespace="com.classproject.teacherapp.mapper.AppComJobMapper" >
 
     <resultMap id="BaseResultMap" type="com.classproject.teacherapp.entity.AppComJob" >
         <id column="UUID" property="uuid" jdbcType="VARCHAR" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.classproject.teacherapp.dao.AppCreJobMapper" >
+<mapper namespace="com.classproject.teacherapp.mapper.AppCreJobMapper" >
 
     <resultMap id="BaseResultMap" type="com.classproject.teacherapp.entity.AppCreJob" >
         <id column="UUID" property="uuid" jdbcType="VARCHAR" />
@@ -21,6 +21,13 @@
         <include refid="Base_Column_List" />
         from app_cre_job
         where UUID = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByTeacher" resultMap="BaseResultMap" parameterType="com.classproject.teacherapp.vo.CreateJobVo" >
+        select
+        <include refid="Base_Column_List" />
+        from app_cre_job
+        where teacher
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

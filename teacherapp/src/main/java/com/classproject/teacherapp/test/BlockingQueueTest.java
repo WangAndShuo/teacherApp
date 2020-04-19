@@ -1,5 +1,6 @@
 package com.classproject.teacherapp.test;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Author wangshuo[wang_shuo2@suixingpay.com]
  * @Date 2020/3/4 16:38
  **/
-
+@Slf4j
 class  Summer{
     private volatile boolean FLAG  =  true;
     AtomicInteger atomicInteger = new AtomicInteger();
@@ -20,9 +21,9 @@ class  Summer{
 
     public Summer(BlockingQueue blockingQueue){
         this.blockingQueue = blockingQueue;
-        System.out.println(Thread.currentThread().getName()+"\t");
+        log.info(Thread.currentThread().getName()+"\t");
     }
-    public void pro() throws  Exception{
+    public void pro() throws InterruptedException {
 
         String data = null;
         boolean retValue;
@@ -30,31 +31,31 @@ class  Summer{
             data = atomicInteger.incrementAndGet()+"";
             retValue = blockingQueue.offer(data, 1L,TimeUnit.SECONDS);
             if(retValue){
-                System.out.println(Thread.currentThread().getName()+"\t 插入队列"+ data +"成功");
+                log.info(Thread.currentThread().getName()+"\t 插入队列"+ data +"成功");
             }else {
-                System.out.println(Thread.currentThread().getName() + "\t 插入队列" + data + "失败");
+                log.info(Thread.currentThread().getName() + "\t 插入队列" + data + "失败");
             }
             TimeUnit.SECONDS.sleep(1);
         }
-        System.out.println(Thread.currentThread().getName() + "\t 大老板叫停了");
+        log.info(Thread.currentThread().getName() + "\t 大老板叫停了");
 
     }
 
-    public void del() throws  Exception{
+    public void del() throws InterruptedException {
 
         String retValue = null;
         while (FLAG){
             retValue = blockingQueue.poll(2L,TimeUnit.SECONDS);
             if(null == retValue || retValue.equalsIgnoreCase("")) {
                 FLAG = false;
-                System.out.println(Thread.currentThread().getName() + "\t 超过两秒钟没有取到队列，退出");
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println();
+                log.info(Thread.currentThread().getName() + "\t 超过两秒钟没有取到队列，退出");
+                log.info("");
+                log.info("");
+                log.info("");
+                log.info("");
                 return;
             }
-            System.out.println(Thread.currentThread().getName() + "\t 消费队列" + retValue + "成功");
+            log.info(Thread.currentThread().getName() + "\t 消费队列" + retValue + "成功");
 
         }
         TimeUnit.SECONDS.sleep(1);
@@ -66,7 +67,7 @@ class  Summer{
 }
 
 
-
+@Slf4j
 public class BlockingQueueTest {
 
     BeanFactory beanFactory;
@@ -76,50 +77,52 @@ public class BlockingQueueTest {
         BeanFactory beanFactory = new  ClassPathXmlApplicationContext();
         beanFactory.getBean("dsada");
 
-        BlockingQueue blockingQueue = new SynchronousQueue();
+        //BlockingQueue blockingQueue = new SynchronousQueue();
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5,5,1000,
                 TimeUnit.MILLISECONDS,new ArrayBlockingQueue(10), Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.AbortPolicy());
-        executor.execute(() ->{
-            System.out.println("dsadas");
-        });
+        executor.execute(() ->
+            log.info("dsadas")
+        );
         executor.shutdown();
         Summer summer = new Summer(new ArrayBlockingQueue(10));
         new Thread(() -> {
-            System.out.println("生产线程启动");
+            log.info("生产线程启动");
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.info("context", e);
+                Thread.currentThread().interrupt();
             }
-            System.out.println();
-            System.out.println();
-            System.out.println();
+            log.info("");
+            log.info("");
+            log.info("");
             try {
                 summer.pro();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.info("error",e);
             }
         },"PRO").start();
         new Thread(() -> {
-            System.out.println("消费线程启动");
+            log.info("消费线程启动");
             try {
                 summer.del();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.info("error",e);
             }
         },"CON").start();
         try {
             TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.info("contexts",e);
+            Thread.currentThread().interrupt();
         }
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        log.info("");
+        log.info("");
+        log.info("");
+        log.info("");
 
-        System.out.println("五秒钟结束了");
+        log.info("五秒钟结束了");
 
         summer.stop();
 

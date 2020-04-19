@@ -1,4 +1,4 @@
-package com.classproject.teacherapp.test;
+package com.classproject.teacherapp.test.codetest;
 
 /**
  * @ClassName Math63

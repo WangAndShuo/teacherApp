@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.classproject.teacherapp.dao.AppClassMapper" >
+<mapper namespace="com.classproject.teacherapp.mapper.AppClassMapper" >
 
     <resultMap id="BaseResultMap" type="com.classproject.teacherapp.entity.AppClass" >
         <id column="uuid" property="uuid" jdbcType="VARCHAR" />
@@ -21,6 +21,15 @@
         from app_class
         where uuid = #{uuid,jdbcType=VARCHAR}
     </select>
+
+    <select id="listClassByDay" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from app_class
+        where WEEK = #{week}
+        order by time;
+    </select>
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
         delete from app_class

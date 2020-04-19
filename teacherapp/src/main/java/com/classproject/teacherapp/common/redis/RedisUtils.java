@@ -1,4 +1,4 @@
-package com.classproject.teacherapp.redis;
+package com.classproject.teacherapp.common.redis;
 
 import java.io.Serializable;
 import java.util.List;

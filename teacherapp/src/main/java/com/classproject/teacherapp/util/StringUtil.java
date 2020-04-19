@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
  */
 
 public class StringUtil {
-    public StringUtil() {
-    }
+    private StringUtil(){
 
+    }
     public static boolean isEmpty(String str) {
         if (str == null) {
             return true;
@@ -64,7 +64,8 @@ public class StringUtil {
     }
 
     public static String firstLetterToUpper(String str) {
-        Pattern regex = Pattern.compile("^[A-Z].*?");
+        String patter = "^[A-Z].*?";
+        Pattern regex = Pattern.compile(patter);
         Matcher regexMatcher = regex.matcher(str);
         if (regexMatcher.matches()) {
             return str;
