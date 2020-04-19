@@ -44,16 +44,16 @@ public class UserController extends BaseController {
 
     @ApiOperation(value = "登陆", notes = "通过用户名和密码登陆")
     @ResponseBody
-    @GetMapping("/login")
+    @PostMapping("/login")
     public BaseResponse login(@RequestBody AppUser user){
         boolean flag = (null == user);
         if(flag){
             return new BaseResponse(StatusCode.FAIL);
         }
         //查看redis中是否有用户
-        if(null == (User)redisUtils.get(user.getUuid())){
-            return new BaseResponse(StatusCode.SUCCESS);
-        }
+//        if(null == (User)redisUtils.get(user.getUuid())){
+//            return new BaseResponse(StatusCode.SUCCESS);
+//        }
         int num = loginService.getUser(user);
         log.info("取得了{}条数据",num);
         redisUtils.set(user.getUsername(),true);
