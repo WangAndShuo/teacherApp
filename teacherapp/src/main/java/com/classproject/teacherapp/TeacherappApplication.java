@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync
-@MapperScan("com.classproject.teacherapp.dao")
+@MapperScan("com.classproject.teacherapp.mapper")
 public class TeacherappApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
@@ -21,6 +21,4 @@ public class TeacherappApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(TeacherappApplication.class);
     }
-
-
 }
