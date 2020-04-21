@@ -14,7 +14,7 @@ public interface AppUserMapper {
 
     AppUser selectByPrimaryKey(String uuid);
 
-    int selectByUser(AppUser appUser);
+    String selectByUser(AppUser appUser);
 
     int updateByPrimaryKeySelective(AppUser record);
 

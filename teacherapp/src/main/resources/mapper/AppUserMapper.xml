@@ -24,9 +24,9 @@
         from app_user
         where username = #{username, jdbcType=VARCHAR}
     </select>
-    <select id="selectByUser" resultType="int" parameterType="java.lang.String" >
+    <select id="selectByUser" resultType="String" parameterType="java.lang.String" >
         select
-        count(*)
+        uuid
         from app_user
         where username = #{username,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
     </select>

@@ -43,11 +43,12 @@ public class JobController {
     @ApiOperation(value = "创建JOB")
     @PostMapping("/selectJob")
     public BaseResponse selectJob(@RequestBody CreateJobVo createJobVo){
-
-        jobService.selectJob(createJobVo);
-        return BaseResponse.build(StatusCode.FAIL);
+        log.info("前端传来的数据：{}", createJobVo );
+        if (createJobVo == null) {
+            return BaseResponse.error("返回数据为空");
+        }
+        return jobService.selectJob(createJobVo);
     }
-
 
     public void get() throws IOException {
         SocketChannel socketChannel = SocketChannel.open();

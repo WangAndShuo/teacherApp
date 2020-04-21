@@ -1,6 +1,7 @@
 package com.classproject.teacherapp.service;
 
 import com.classproject.teacherapp.entity.AppCreJob;
+import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.vo.CreateJobVo;
 
 import java.util.List;
@@ -18,12 +19,12 @@ public interface JobService {
      * @param appCreJob
      * @return
      */
-    int createJob(AppCreJob appCreJob);
+    BaseResponse createJob(AppCreJob appCreJob);
 
     /**
      * 查询作业
      * @param createJobVo
      * @return
      */
-    List<AppCreJob> selectJob(CreateJobVo createJobVo);
+    BaseResponse selectJob(CreateJobVo createJobVo);
 }

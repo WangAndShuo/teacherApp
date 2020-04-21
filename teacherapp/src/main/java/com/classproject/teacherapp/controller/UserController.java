@@ -3,6 +3,7 @@ package com.classproject.teacherapp.controller;
 import com.alibaba.excel.EasyExcel;
 import com.classproject.teacherapp.common.BaseController;
 import com.classproject.teacherapp.common.Exception.MyTranException;
+import com.classproject.teacherapp.mapper.AppUserMapper;
 import com.classproject.teacherapp.mapper.User;
 import com.classproject.teacherapp.entity.AppUser;
 import com.classproject.teacherapp.entity.AppUserinfo;
@@ -16,6 +17,7 @@ import com.classproject.teacherapp.util.UuidUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -41,28 +43,28 @@ public class UserController extends BaseController {
     private RedisUtils redisUtils;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private AppUserMapper appUserMapper;
 
     @ApiOperation(value = "登陆", notes = "通过用户名和密码登陆")
     @ResponseBody
     @PostMapping("/login")
     public BaseResponse login(@RequestBody AppUser user){
+        log.info("【接收前端的数据】:{}",user);
         boolean flag = (null == user);
         if(flag){
             return new BaseResponse(StatusCode.FAIL);
         }
-        //查看redis中是否有用户
-//        if(null == (User)redisUtils.get(user.getUuid())){
-//            return new BaseResponse(StatusCode.SUCCESS);
-//        }
-        int num = loginService.getUser(user);
-        log.info("取得了{}条数据",num);
-        redisUtils.set(user.getUsername(),true);
-        return new BaseResponse(StatusCode.SUCCESS);
+        if(StringUtils.isBlank(user.getUsername())){
+            return BaseResponse.build(500,"用户名或者密码为空");
+        }
+
+        return loginService.getUser(user);
     }
 
     @Override
     @ResponseBody
-    @GetMapping("/lo")
+    @GetMapping("/excel")
     public BaseResponse excel(HttpServletResponse response){
         String fileName = "demo.xlsx";
         // 这里 需要指定写用哪个class去读，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
@@ -78,7 +80,6 @@ public class UserController extends BaseController {
         List<AppUser> list = null ;
         AppUser appUser = new AppUser();
         appUser.setUuid("121164");
-
         return list;
     }
 
@@ -107,6 +108,7 @@ public class UserController extends BaseController {
     @PostMapping("/register")
     @Transactional(rollbackFor= MyTranException.class)
     public  BaseResponse register(String username, String password){
+        log.info("【注册】： 用户名[{}]\t密码[{}]",username,password);
         if (StringUtil.isEmpty(username) || StringUtil.isEmpty(password)) {
             return  new BaseResponse(StatusCode.FAIL);
         }
@@ -114,35 +116,26 @@ public class UserController extends BaseController {
         if (loginService.getUserByName(username) == 1) {
             return  new BaseResponse(StatusCode.USER_IS_HAVE);
         }
-
         //登陆用户
         AppUser appUser = new AppUser();
         String uuid = UuidUtils.getUuid();
         appUser.setUsername(username);
         appUser.setPassword(password);
         appUser.setUuid(uuid);
-
         //用户详情
         AppUserinfo appUserinfo = new AppUserinfo();
         appUserinfo.setUuid(uuid);
-
-        int num = 0;
         try {
-            num = loginService.insertUser(appUser);
+            return  loginService.insertUser(appUser);
         } catch (MyTranException e) {
-            log.info("抛出异常", e);
+            return BaseResponse.error("注册失败");
         }
-
-        if (num < 1) {
-            log.info("注册失败");
-            return  new BaseResponse(StatusCode.FAIL,appUser);
-        }
-        return  new BaseResponse(StatusCode.SUCCESS,appUser);
     }
 
     @ApiOperation(value = "查询用户是否存在", notes = "查询用户是否存在")
     @PostMapping("/theSame")
     public  BaseResponse theSame(String username) {
+        log.info("【查询用户是否存在】： 用户名[{}]\t",username);
         int num = loginService.getUserByName("username");
         if(num == 1){
             return  BaseResponse.build(StatusCode.USER_IS_HAVE);

@@ -44,7 +44,6 @@ public class UpDataController {
     public String readExcel(MultipartFile file){
         try {
             EasyExcel.read(file.getInputStream(), AppUser.class, null);
-
         } catch (IOException e) {
             log.error("错误", e);
         }
@@ -54,7 +53,6 @@ public class UpDataController {
 
 
     public static void main(String[] args) throws InterruptedException {
-
         BlockingQueue blockingQueue  = new ArrayBlockingQueue(1);
         //抛出异常
         blockingQueue.add(1);

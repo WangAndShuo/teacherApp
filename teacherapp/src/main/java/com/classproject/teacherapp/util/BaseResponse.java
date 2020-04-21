@@ -27,6 +27,20 @@ public class BaseResponse {
 
     private StatusCode statusCode;
 
+    public static BaseResponse error(String message, Object data) {
+        return new BaseResponse(500, message, data);
+    }
+    public static BaseResponse error(String message) {
+        return new BaseResponse(500, message, null);
+    }
+
+    public static BaseResponse ok(String message, Object data) {
+        return new BaseResponse(200, message, data);
+    }
+    public static BaseResponse ok(String message) {
+        return new BaseResponse(200, message, null);
+    }
+
     public static BaseResponse build(Integer status, String message, Object data) {
         return new BaseResponse(status, message, data);
     }
@@ -50,9 +64,7 @@ public class BaseResponse {
     public static BaseResponse build(StatusCode statusCode,Object data,Integer code) {
         return new BaseResponse(statusCode,  data,  code);
     }
-    public static BaseResponse ok() {
-        return new BaseResponse(null);
-    }
+
 
     private BaseResponse() {
 
