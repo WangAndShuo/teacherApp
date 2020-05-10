@@ -1,7 +1,6 @@
 package com.classproject.teacherapp.service.Impl;
 
 import com.classproject.teacherapp.common.Exception.MyTranException;
-import com.classproject.teacherapp.common.redis.RedisUtils;
 import com.classproject.teacherapp.mapper.AppUserMapper;
 import com.classproject.teacherapp.mapper.AppUserinfoMapper;
 import com.classproject.teacherapp.entity.AppUser;
@@ -29,8 +28,8 @@ public class LoginServiceImpl implements LoginService {
     private AppUserMapper appUserMapper;
     @Resource
     private AppUserinfoMapper appUserinfoMapper;
-    @Autowired
-    private RedisUtils redisUtils;
+//    @Autowired
+//    private RedisUtils redisUtils;
 
     @Override
     @Transactional

@@ -1,6 +1,8 @@
 package com.classproject.teacherapp.mapper;
 
 import com.classproject.teacherapp.entity.AppCreJob;
+import com.classproject.teacherapp.entity.UserInfo;
+import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.vo.CreateJobVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,4 +23,7 @@ public interface AppCreJobMapper {
     int updateByPrimaryKeySelective(AppCreJob record);
 
     int updateByPrimaryKey(AppCreJob record);
+
+    List<UserInfo> selectStrudentByJob(String jobId);
+
 }

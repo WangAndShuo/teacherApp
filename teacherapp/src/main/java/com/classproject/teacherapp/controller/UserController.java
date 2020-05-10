@@ -3,11 +3,11 @@ package com.classproject.teacherapp.controller;
 import com.alibaba.excel.EasyExcel;
 import com.classproject.teacherapp.common.BaseController;
 import com.classproject.teacherapp.common.Exception.MyTranException;
+import com.classproject.teacherapp.common.redis.RedisUtils;
 import com.classproject.teacherapp.mapper.AppUserMapper;
 import com.classproject.teacherapp.mapper.User;
 import com.classproject.teacherapp.entity.AppUser;
 import com.classproject.teacherapp.entity.AppUserinfo;
-import com.classproject.teacherapp.common.redis.RedisUtils;
 import com.classproject.teacherapp.service.LoginService;
 import com.classproject.teacherapp.service.UserInfoService;
 import com.classproject.teacherapp.util.BaseResponse;
@@ -51,9 +51,11 @@ public class UserController extends BaseController {
     @PostMapping("/login")
     public BaseResponse login(@RequestBody AppUser user){
         log.info("【接收前端的数据】:{}",user);
+
+        System.out.println("----------------"+redisUtils.get("1234").toString());
         boolean flag = (null == user);
         if(flag){
-            return new BaseResponse(StatusCode.FAIL);
+            return BaseResponse.error("前端所传参数为空");
         }
         if(StringUtils.isBlank(user.getUsername())){
             return BaseResponse.build(500,"用户名或者密码为空");
@@ -116,7 +118,7 @@ public class UserController extends BaseController {
         if (loginService.getUserByName(username) == 1) {
             return  new BaseResponse(StatusCode.USER_IS_HAVE);
         }
-        //登陆用户
+        //封装用户
         AppUser appUser = new AppUser();
         String uuid = UuidUtils.getUuid();
         appUser.setUsername(username);
@@ -132,7 +134,16 @@ public class UserController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "查询用户是否存在", notes = "查询用户是否存在")
+    @ApiOperation(value = "用户认证——验证是否是老师", notes = "用户证——验证是否是老师")
+    @PostMapping("/verifyUser")
+    //TODO：没做完
+    public  BaseResponse verifyUser(String username) {
+        log.info("【用户验证是否是老师】： 用户名[{}]\t",username);
+
+        return  BaseResponse.build(StatusCode.TRUE);
+    }
+
+    @ApiOperation(value = "登陆的时候查询用户是否存在", notes = "查询用户是否存在")
     @PostMapping("/theSame")
     public  BaseResponse theSame(String username) {
         log.info("【查询用户是否存在】： 用户名[{}]\t",username);

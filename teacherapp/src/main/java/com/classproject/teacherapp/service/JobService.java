@@ -27,4 +27,11 @@ public interface JobService {
      * @return
      */
     BaseResponse selectJob(CreateJobVo createJobVo);
+
+    /**
+     * 查询需要交改作业的用户
+     * @param jobId
+     * @return
+     */
+    BaseResponse selectStrudentByJob(String jobId);
 }

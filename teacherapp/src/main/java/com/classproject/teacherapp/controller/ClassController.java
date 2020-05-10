@@ -1,10 +1,12 @@
 package com.classproject.teacherapp.controller;
 
 import com.classproject.teacherapp.entity.AppClass;
+import com.classproject.teacherapp.entity.AppUser;
 import com.classproject.teacherapp.service.ClassService;
 import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.util.StatusCode;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,17 @@ public class ClassController {
         map = classService.listClassByDay(weeks);
         return BaseResponse.build(StatusCode.SUCCESS,map);
     }
+
+    @ApiOperation(value = "获取该用户所有课程")
+    @GetMapping("/getClassByUser")
+    public BaseResponse getClassByUser(AppUser user){
+        if (StringUtils.isBlank(user.getUuid())) {
+            return  BaseResponse.error("该用户异常");
+        }
+        return classService.getClassByUser(user);
+    }
+
+
 
 
 }

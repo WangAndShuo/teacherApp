@@ -1,13 +1,11 @@
 package com.classproject.teacherapp.test.bishi;
 
-import com.classproject.teacherapp.test.DateUtil;
-import org.apache.commons.lang3.StringUtils;
+import com.classproject.teacherapp.util.DateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * @ClassName Main1

@@ -6,7 +6,7 @@
         <id column="UUID" property="uuid" jdbcType="VARCHAR" />
         <result column="job_name" property="jobName" jdbcType="VARCHAR" />
         <result column="job_info" property="jobInfo" jdbcType="VARCHAR" />
-        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="user_id" property="user" jdbcType="VARCHAR" />
         <result column="cre_time" property="creTime" jdbcType="VARCHAR" />
         <result column="fin_time" property="finTime" jdbcType="VARCHAR" />
         <result column="address" property="address" jdbcType="VARCHAR" />
@@ -27,7 +27,29 @@
         select
         <include refid="Base_Column_List" />
         from app_cre_job
-        where teacher
+        where user_id = #{user,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询需要提交作业的用户-->
+    <select id="selectStrudentByJob" resultType="com.classproject.teacherapp.entity.AppComJob" parameterType="string">
+        select
+        UUID,
+        job_name,
+        job_type,
+        job_info,
+        user_id,
+        stu_id,
+        commit_time,
+        cre_time,
+        fin_time,
+        address,
+        cre_job_id
+        from app_com_job
+        <where>
+            <if test="jobId != null">
+                cre_job_id = #{jobId,jdbcType=VARCHAR}
+            </if>
+        </where>
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

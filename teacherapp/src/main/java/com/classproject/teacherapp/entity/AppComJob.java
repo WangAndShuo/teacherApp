@@ -54,6 +54,16 @@ public class AppComJob implements ExcelBody {
     private String address;
 
 
+    /**
+     * 提交时间
+     */
+    private String commit_time;
+
+    /**
+     * 关联作业id
+     */
+    private String  cre_job_id;
+
     @Override
     public void setExcel(Row row) {
 

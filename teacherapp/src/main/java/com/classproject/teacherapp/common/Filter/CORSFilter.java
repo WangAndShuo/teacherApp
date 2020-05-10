@@ -9,7 +9,7 @@
 //
 ///**
 // * @ClassName CORSFilter
-// * @Description:
+// * @Description:  跨域处理 Filter 版
 // * @Author wangshuo[wang_shuo2@suixingpay.com]
 // * @Date 2020/4/11 17:07
 // **/

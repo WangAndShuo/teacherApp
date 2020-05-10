@@ -13,11 +13,13 @@
         <result column="college" property="college" jdbcType="VARCHAR" />
         <result column="education" property="education" jdbcType="VARCHAR" />
         <result column="grade" property="grade" jdbcType="VARCHAR" />
+        <result column="head" property="head" jdbcType="VARCHAR"/>
         <result column="teacher" property="teacher" jdbcType="VARCHAR" />
+
     </resultMap>
 
     <sql id="Base_Column_List" >
-        uuid, name, sex, age, brithday, address, school, college, education, grade, teacher
+        uuid, name, sex, age, brithday, address, school, college, education,head, grade, teacher
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

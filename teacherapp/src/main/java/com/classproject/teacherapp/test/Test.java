@@ -2,6 +2,7 @@ package com.classproject.teacherapp.test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 /**
  * @ClassName Test
@@ -11,13 +12,28 @@ import java.lang.reflect.Method;
  **/
 public class Test {
     public static void main(String[] args) {
-        Father father = new Father();
-        Son son = new Son();
-        father.setA(1);
-        father.setB(2);
-        fatherToChild(father,son);
-        System.out.println(son.getA());
+        String str = UUID.randomUUID().toString().replace("-","");
+        System.out.println(get());
+//        Father father = new Father();
+//        Son son = new Son();
+//        father.setA(1);
+//        father.setB(2);
+//        fatherToChild(father,son);
+//        System.out.println(son.getA());
     }
+
+
+
+    public static int get(){
+        try{
+            return  1/0;
+        }catch (Exception e){
+
+        }finally {
+            return 1;
+        }
+    }
+
     private static void fatherToChild(Object father, Object child) {
         if (!(child.getClass().getSuperclass() == father.getClass())) {
             try {

@@ -56,6 +56,10 @@ public class AppUserinfo {
     private String grade;
 
     /**
+     * 头像
+     */
+    private String head;
+    /**
      * 是否是学生1-学生 0-老师
      */
     private String teacher;

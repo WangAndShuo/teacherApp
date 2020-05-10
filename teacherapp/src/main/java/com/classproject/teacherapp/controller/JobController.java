@@ -8,6 +8,7 @@ import com.classproject.teacherapp.vo.CreateJobVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,14 +34,20 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
-    @ApiOperation(value = "创建JOB")
+    @ApiOperation(value = "创建作业")
     @PostMapping("/createJob")
     public BaseResponse createJob(AppCreJob createJobVo){
-        jobService.createJob(createJobVo);
-        return BaseResponse.build(StatusCode.FAIL);
+        if (StringUtils.isBlank(createJobVo.getUser())) {
+            return BaseResponse.error("发布人为空");
+        }
+        if (StringUtils.isBlank(createJobVo.getClassName())) {
+            return BaseResponse.error("请添加正确的班级");
+        }
+
+        return jobService.createJob(createJobVo);
     }
 
-    @ApiOperation(value = "创建JOB")
+    @ApiOperation(value = "查询该用户下的所有作业")
     @PostMapping("/selectJob")
     public BaseResponse selectJob(@RequestBody CreateJobVo createJobVo){
         log.info("前端传来的数据：{}", createJobVo );
@@ -50,11 +57,16 @@ public class JobController {
         return jobService.selectJob(createJobVo);
     }
 
+
+    public BaseResponse selectStrudentByJob(String jobId){
+
+
+        return jobService.selectStrudentByJob(jobId);
+    }
+
     public void get() throws IOException {
         SocketChannel socketChannel = SocketChannel.open();
         socketChannel.configureBlocking(false);
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-
-
     }
 }

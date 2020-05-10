@@ -1,5 +1,7 @@
 package com.classproject.teacherapp.entity;
 
+import lombok.Data;
+
 /**
  * 
  * 
@@ -7,6 +9,7 @@ package com.classproject.teacherapp.entity;
  * 
  * @date 2020-03-22
  */
+@Data
 public class AppClass {
     private String uuid;
 
@@ -34,6 +37,12 @@ public class AppClass {
      * 节数
      */
     private String time;
+
+    /**
+     * 用户id
+     */
+    private String userId;
+
 
     public String getUuid() {
         return uuid;

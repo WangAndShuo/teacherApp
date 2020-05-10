@@ -20,7 +20,7 @@ public class ZTestController {
     private String userKey = "userKey";
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate redisTemplate;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 

@@ -9,17 +9,18 @@
         <result column="room" property="room" jdbcType="VARCHAR" />
         <result column="week" property="week" jdbcType="VARCHAR" />
         <result column="time" property="time" jdbcType="VARCHAR" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List" >
-        uuid, classname, teacher, room, week, time
+        uuid, classname, teacher, room, week, time, user_id
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
         select 
         <include refid="Base_Column_List" />
         from app_class
-        where uuid = #{uuid,jdbcType=VARCHAR}
+        where user_id = #{uuid,jdbcType=VARCHAR}
     </select>
 
     <select id="listClassByDay" resultMap="BaseResultMap" parameterType="String">
@@ -38,9 +39,9 @@
 
     <insert id="insert" parameterType="com.classproject.teacherapp.entity.AppClass" >
         insert into app_class (uuid, classname, teacher, 
-            room, week, time)
+            room, week, time, user_id)
         values (#{uuid,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, 
-            #{room,jdbcType=VARCHAR}, #{week,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR})
+            #{room,jdbcType=VARCHAR}, #{week,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
     </insert>
 
     <insert id="insertSelective" parameterType="com.classproject.teacherapp.entity.AppClass" >
@@ -64,6 +65,9 @@
             <if test="time != null" >
                 time,
             </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="uuid != null" >
@@ -83,6 +87,9 @@
             </if>
             <if test="time != null" >
                 #{time,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -105,6 +112,9 @@
             <if test="time != null" >
                 time = #{time,jdbcType=VARCHAR},
             </if>
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
         </set>
         where uuid = #{uuid,jdbcType=VARCHAR}
     </update>
@@ -115,7 +125,8 @@
             teacher = #{teacher,jdbcType=VARCHAR},
             room = #{room,jdbcType=VARCHAR},
             week = #{week,jdbcType=VARCHAR},
-            time = #{time,jdbcType=VARCHAR}
+            time = #{time,jdbcType=VARCHAR},
+            user_id = #{userId,jdbcType=VARCHAR}
         where uuid = #{uuid,jdbcType=VARCHAR}
     </update>
 </mapper>
