@@ -14,6 +14,7 @@ import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.util.StatusCode;
 import com.classproject.teacherapp.util.StringUtil;
 import com.classproject.teacherapp.util.UuidUtils;
+import com.classproject.teacherapp.vo.RegisterUserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +41,6 @@ public class UserController extends BaseController {
     @Autowired
     private LoginService loginService;
     @Autowired
-    private RedisUtils redisUtils;
-    @Autowired
     private UserInfoService userInfoService;
     @Autowired
     private AppUserMapper appUserMapper;
@@ -51,8 +50,7 @@ public class UserController extends BaseController {
     @PostMapping("/login")
     public BaseResponse login(@RequestBody AppUser user){
         log.info("【接收前端的数据】:{}",user);
-
-        System.out.println("----------------"+redisUtils.get("1234").toString());
+        user.setUsername(user.getUsername().replace(" ",""));
         boolean flag = (null == user);
         if(flag){
             return BaseResponse.error("前端所传参数为空");
@@ -109,28 +107,55 @@ public class UserController extends BaseController {
     @ApiOperation(value = "注册", notes = "注册用户")
     @PostMapping("/register")
     @Transactional(rollbackFor= MyTranException.class)
-    public  BaseResponse register(String username, String password){
-        log.info("【注册】： 用户名[{}]\t密码[{}]",username,password);
-        if (StringUtil.isEmpty(username) || StringUtil.isEmpty(password)) {
+    public  BaseResponse register(@RequestBody RegisterUserVo registerUserVo){
+        log.info("【注册】： 接收前端传来的对象[{}]",registerUserVo);
+        if (registerUserVo == null) {
             return  new BaseResponse(StatusCode.FAIL);
         }
         //判断用户是否存在
-        if (loginService.getUserByName(username) == 1) {
+        if (loginService.getUserByName(registerUserVo.getName()) == 1) {
             return  new BaseResponse(StatusCode.USER_IS_HAVE);
         }
         //封装用户
         AppUser appUser = new AppUser();
         String uuid = UuidUtils.getUuid();
-        appUser.setUsername(username);
-        appUser.setPassword(password);
+        appUser.setUsername(registerUserVo.getName());
+        appUser.setPassword(registerUserVo.getPassword());
         appUser.setUuid(uuid);
         //用户详情
         AppUserinfo appUserinfo = new AppUserinfo();
         appUserinfo.setUuid(uuid);
+        setAppUserInfo(registerUserVo, appUserinfo);
         try {
             return  loginService.insertUser(appUser);
         } catch (MyTranException e) {
             return BaseResponse.error("注册失败");
+        }
+    }
+
+    private void setAppUserInfo(@RequestBody RegisterUserVo registerUserVo, AppUserinfo appUserinfo) {
+        if(registerUserVo.getName() != null){
+            appUserinfo.setName(registerUserVo.getName());
+        }
+
+        if(registerUserVo.getName() != null){
+            appUserinfo.setSex(registerUserVo.getSex());
+        }
+
+        if(registerUserVo.getName() != null){
+            appUserinfo.setAge(registerUserVo.getAge());
+        }
+
+        if(registerUserVo.getName() != null){
+            appUserinfo.setBrithday(registerUserVo.getBrithday());
+        }
+
+        if(registerUserVo.getName() != null){
+            appUserinfo.setAddress(registerUserVo.getAddress());
+        }
+
+        if(registerUserVo.getName() != null){
+            appUserinfo.setSchool(registerUserVo.getSchool());
         }
     }
 
