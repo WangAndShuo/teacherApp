@@ -30,8 +30,8 @@ public class RedisConfig extends CachingConfigurerSupport {
     private Duration timeToLive = Duration.ZERO;
 
     @Bean(name = "redisTemplate")
-    public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);

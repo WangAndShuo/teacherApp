@@ -1,6 +1,7 @@
 package com.classproject.teacherapp.mapper;
 
 import com.classproject.teacherapp.entity.AppCreJob;
+import com.classproject.teacherapp.entity.AppScore;
 import com.classproject.teacherapp.entity.UserInfo;
 import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.vo.CreateJobVo;
@@ -25,5 +26,9 @@ public interface AppCreJobMapper {
     int updateByPrimaryKey(AppCreJob record);
 
     List<UserInfo> selectStrudentByJob(String jobId);
+
+    List<AppScore>  selectScore(String jobId);
+
+    int insertScore(AppScore appScore);
 
 }

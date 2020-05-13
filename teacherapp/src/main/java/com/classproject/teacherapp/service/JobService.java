@@ -34,4 +34,11 @@ public interface JobService {
      * @return
      */
     BaseResponse selectStrudentByJob(String jobId);
+
+    /**
+     * 查询某作业学生的成绩
+     * @param jobId
+     * @return
+     */
+    BaseResponse selectScore(String jobId);
 }

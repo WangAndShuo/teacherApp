@@ -37,7 +37,7 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public BaseResponse getClassByUser(AppUser appUser) {
         List<AppClass> classList = new ArrayList<>();
-        appClassMapper.selectByPrimaryKey(appUser.getUuid());
+        classList = appClassMapper.selectByPrimaryKey(appUser.getUuid());
         return BaseResponse.ok("成功", classList);
     }
 }

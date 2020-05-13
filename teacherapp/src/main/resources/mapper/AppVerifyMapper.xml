@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.classproject.teacherapp.mapper.AppVerifyMapper">
+  <resultMap id="BaseResultMap" type="com.classproject.teacherapp.entity.AppVerify">
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="collegial" jdbcType="VARCHAR" property="collegial" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="work_time" jdbcType="VARCHAR" property="workTime" />
+    <result column="work_permit" jdbcType="VARCHAR" property="workPermit" />
+    <result column="verification" jdbcType="VARCHAR" property="verification" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uuid, user_id, collegial, address, major, work_time, work_permit, verification
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_verify
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from app_verify
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.classproject.teacherapp.entity.AppVerify" useGeneratedKeys="true">
+    insert into app_verify (user_id, collegial, address, 
+      major, work_time, work_permit, 
+      verification)
+    values (#{userId,jdbcType=VARCHAR}, #{collegial,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{workTime,jdbcType=VARCHAR}, #{workPermit,jdbcType=VARCHAR}, 
+      #{verification,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.classproject.teacherapp.entity.AppVerify" useGeneratedKeys="true">
+    insert into app_verify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="collegial != null">
+        collegial,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="major != null">
+        major,
+      </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="workPermit != null">
+        work_permit,
+      </if>
+      <if test="verification != null">
+        verification,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="collegial != null">
+        #{collegial,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="workPermit != null">
+        #{workPermit,jdbcType=VARCHAR},
+      </if>
+      <if test="verification != null">
+        #{verification,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.classproject.teacherapp.entity.AppVerify">
+    update app_verify
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="collegial != null">
+        collegial = #{collegial,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="workPermit != null">
+        work_permit = #{workPermit,jdbcType=VARCHAR},
+      </if>
+      <if test="verification != null">
+        verification = #{verification,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.classproject.teacherapp.entity.AppVerify">
+    update app_verify
+    set user_id = #{userId,jdbcType=VARCHAR},
+      collegial = #{collegial,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      work_permit = #{workPermit,jdbcType=VARCHAR},
+      verification = #{verification,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

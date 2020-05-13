@@ -21,25 +21,25 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class ParamInterceptor implements HandlerInterceptor {
     @Autowired
-    RedisService redisUtils;
+    private RedisService redisUtils;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        String token = httpServletRequest.getHeader("token");
-        String user = httpServletRequest.getHeader("user");
-        //token验证
-        log.info("登陆用户名是：{}", user);
-        Object redisTmp = null;
-        try {
-             redisTmp = redisUtils.getString(user);
-             log.info("获取redis里的token：{}", redisTmp);
-        }catch (Exception e){
-            log.error("错误:{}",e);
-        }
-        if(!token.equals(redisTmp)){
-            System.out.println("token验证失败");
-            return false;
-        }
+//        String token = httpServletRequest.getHeader("token");
+//        String user = httpServletRequest.getHeader("user");
+//        //token验证
+//        log.info("登陆用户名是：{}", user);
+//        Object redisTmp = null;
+//        try {
+//            redisTmp = redisUtils.getString(user);
+//            log.info("获取redis里的token：{}", redisTmp);
+//        }catch (Exception e){
+//            log.error("错误:{}",e);
+//        }
+//        if(!token.equals(redisTmp)){
+//            System.out.println("token验证失败");
+//            return false;
+//        }
         System.out.println("token验证成功");
         return true;
     }

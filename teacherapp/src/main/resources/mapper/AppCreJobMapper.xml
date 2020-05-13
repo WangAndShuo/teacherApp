@@ -12,6 +12,15 @@
         <result column="address" property="address" jdbcType="VARCHAR" />
     </resultMap>
 
+    <resultMap id="ScoreMap" type="com.classproject.teacherapp.entity.AppScore">
+        <id column="uuid" property="uuid"/>
+        <result column="class_name"  property="className"/>
+        <result column="user_name"  property="userName"/>
+        <result column="grade"  property="grade"/>
+        <result column="score"  property="score"/>
+        <result column="job_id"  property="jobId"/>
+        <result column="teacher"  property="teacher"/>
+    </resultMap>
     <sql id="Base_Column_List" >
         UUID, job_name, job_info, user_id, cre_time, fin_time, address
     </sql>
@@ -27,7 +36,7 @@
         select
         <include refid="Base_Column_List" />
         from app_cre_job
-        where user_id = #{user,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=VARCHAR}
     </select>
 
     <!--查询需要提交作业的用户-->
@@ -52,10 +61,68 @@
         </where>
     </select>
 
+    <select id="selectScore" resultMap="ScoreMap" parameterType="String">
+        select UUID,class_name,user_name,grade,score,job_id,teacher
+        from app_score
+        where job_id = #{jobId,jdbcType=VARCHAR}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
         delete from app_cre_job
         where UUID = #{uuid,jdbcType=VARCHAR}
     </delete>
+
+    <insert id="insertScore" parameterType="com.classproject.teacherapp.entity.AppScore">
+        insert into app_score
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                UUID,
+            </if>
+            <if test="className != null" >
+                class_name,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="grade != null" >
+                grade,
+            </if>
+            <if test="score != null" >
+                score,
+            </if>
+            <if test="jobId != null" >
+                job_id,
+            </if>
+            <if test="teacher != null" >
+                teacher,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="uuid != null" >
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null" >
+                #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="grade != null" >
+                #{grade,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null" >
+                #{score,jdbcType=VARCHAR},
+            </if>
+            <if test="jobId != null" >
+                #{jobId,jdbcType=VARCHAR},
+            </if>
+            <if test="teacher != null" >
+                (select name from app_userinfo
+                where uuid = #{teacher,jdbcType=VARCHAR})
+            </if>
+        </trim>
+
+    </insert>
 
     <insert id="insert" parameterType="com.classproject.teacherapp.entity.AppCreJob" >
         insert into app_cre_job (UUID, job_name, job_info, 
@@ -78,6 +145,12 @@
             <if test="jobInfo != null" >
                 job_info,
             </if>
+            <if test="classId != null" >
+                class_id,
+            </if>
+            <if test="classId != null" >
+                class_name,
+            </if>
             <if test="userId != null" >
                 user_id,
             </if>
@@ -90,6 +163,7 @@
             <if test="address != null" >
                 address,
             </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="uuid != null" >
@@ -100,6 +174,12 @@
             </if>
             <if test="jobInfo != null" >
                 #{jobInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="classId != null" >
+                #{classId,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null" >
+                #{className,jdbcType=VARCHAR},
             </if>
             <if test="userId != null" >
                 #{userId,jdbcType=VARCHAR},
@@ -113,6 +193,7 @@
             <if test="address != null" >
                 #{address,jdbcType=VARCHAR},
             </if>
+
         </trim>
     </insert>
 

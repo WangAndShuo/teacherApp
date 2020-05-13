@@ -29,7 +29,7 @@ public class CreateJobVo {
     /**
      * 发布人
      */
-    private String user;
+    private String userId;
 
     /**
      * 发布班级id

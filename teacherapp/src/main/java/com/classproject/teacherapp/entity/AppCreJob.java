@@ -29,10 +29,10 @@ public class AppCreJob {
     /**
      * 发布人
      */
-    private String user;
+    private String userId;
 
     /**
-     * 发布班级id
+     * 发布班级名称
      */
     private String className;
 
@@ -56,5 +56,8 @@ public class AppCreJob {
      */
     private String address;
 
-
+    /**
+     * 作业状态
+     */
+    private String jobStatus;
 }

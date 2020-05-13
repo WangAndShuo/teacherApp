@@ -15,7 +15,7 @@ public interface AppClassMapper {
 
     int insertSelective(AppClass record);
 
-    AppClass selectByPrimaryKey(String uuid);
+    List<AppClass> selectByPrimaryKey(String uuid);
 
     int updateByPrimaryKeySelective(AppClass record);
 

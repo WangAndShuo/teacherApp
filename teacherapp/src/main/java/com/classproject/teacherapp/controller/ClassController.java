@@ -6,11 +6,11 @@ import com.classproject.teacherapp.service.ClassService;
 import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.util.StatusCode;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +22,7 @@ import java.util.Map;
  **/
 @RestController
 @RequestMapping("/class")
+@Slf4j
 public class ClassController {
 
     @Autowired
@@ -39,8 +40,9 @@ public class ClassController {
     }
 
     @ApiOperation(value = "获取该用户所有课程")
-    @GetMapping("/getClassByUser")
-    public BaseResponse getClassByUser(AppUser user){
+    @PostMapping("/getClassByUser")
+    public BaseResponse getClassByUser(@RequestBody AppUser user){
+        log.info("【获取该用户所有课程：[{}]】", user);
         if (StringUtils.isBlank(user.getUuid())) {
             return  BaseResponse.error("该用户异常");
         }

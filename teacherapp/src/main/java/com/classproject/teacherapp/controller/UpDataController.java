@@ -41,7 +41,7 @@ public class UpDataController {
 
     @ResponseBody
     @PostMapping("/read")
-    public String readExcel(MultipartFile file){
+    public String readExcel(MultipartFile file) {
         try {
             EasyExcel.read(file.getInputStream(), AppUser.class, null);
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class UpDataController {
 
 
     public static void main(String[] args) throws InterruptedException {
-        BlockingQueue blockingQueue  = new ArrayBlockingQueue(1);
+        BlockingQueue blockingQueue = new ArrayBlockingQueue(1);
         //抛出异常
         blockingQueue.add(1);
         blockingQueue.remove(1);
@@ -67,7 +67,7 @@ public class UpDataController {
         blockingQueue.put(1);
         blockingQueue.take();
         //超时
-        blockingQueue.offer(1,1, TimeUnit.SECONDS);
+        blockingQueue.offer(1, 1, TimeUnit.SECONDS);
         blockingQueue.poll(1, TimeUnit.SECONDS);
 
 
@@ -85,48 +85,88 @@ public class UpDataController {
     }
 
 
+    @ApiOperation("多文件上传")
+    @PostMapping("/upOneFile")
+    public Map uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> arr ;
+        int i = 0;
+
+        //        获取文件得原始名称
+        String oldfileName = file.getOriginalFilename();
+//        获取文件后缀
+        String extension = "." + FilenameUtils.getExtension(file.getOriginalFilename());
+//        生成新的文件名
+        String newfileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + UUID.randomUUID().toString().replace("-", "");
+//        文件得大小
+        long size = file.getSize();
+//        文件类型
+        String type = file.getContentType();
+        log.info("{} 类型是：{}", oldfileName, type);
+//        处理根据日期生成目录
+        String realPath = "/home/static/files";
+        String dataPath = realPath + "/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        File dateDir = new File(dataPath);
+        if (!dateDir.exists()) {
+            System.out.println("66666666666666666666666666666");
+            dateDir.mkdirs();
+        }
+//        处理文件上传
+        file.transferTo(new File(dateDir, newfileName));
+        log.info("文件名字：[{}]，  文件路径：[{}]", newfileName, dateDir);
+
+//        将文件信息放入数据库中
+        arr = new HashMap<>();
+        arr.put("downloadUrl", getPath(request) + "/" + newfileName);
+        arr.put("fileId", newfileName);
+        arr.put("previewUrl", getPath(request) + "/" + newfileName);
 
 
+        map.put("code", 0);
+        map.put("message", "string");
+        map.put("result", arr);
+        return map;
+    }
 
 
     @ApiOperation("多文件上传")
-    @RequestMapping("/upData")
-    public Map upload(@RequestParam("files")MultipartFile[] files, HttpServletRequest request,HttpServletResponse response) throws IOException {
+    @PostMapping("/upData")
+    public Map upload(@RequestParam("files") MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> map = new HashMap<>();
-        Map<String, Object>[] arr  = new HashMap[files.length];
+        Map<String, Object>[] arr = new HashMap[files.length];
         int i = 0;
-        for (MultipartFile file:files) {
+        for (MultipartFile file : files) {
             //        获取文件得原始名称
             String oldfileName = file.getOriginalFilename();
 //        获取文件后缀
-            String extension = "."+ FilenameUtils.getExtension(file.getOriginalFilename());
+            String extension = "." + FilenameUtils.getExtension(file.getOriginalFilename());
 //        生成新的文件名
-            String newfileName  = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+ UUID.randomUUID().toString().replace("-", "");
+            String newfileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + UUID.randomUUID().toString().replace("-", "");
 //        文件得大小
             long size = file.getSize();
 //        文件类型
             String type = file.getContentType();
-            log.info("{} 类型是：{}",oldfileName, type);
+            log.info("{} 类型是：{}", oldfileName, type);
 //        处理根据日期生成目录
             String realPath = "/home/static/files";
             String dataPath = realPath + "/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             File dateDir = new File(dataPath);
-            if(!dateDir.exists()){
+            if (!dateDir.exists()) {
                 System.out.println("66666666666666666666666666666");
                 dateDir.mkdirs();
             }
 //        处理文件上传
             file.transferTo(new File(dateDir, newfileName));
-            log.info("文件名字：[{}]，  文件路径：[{}]" ,newfileName , dateDir);
+            log.info("文件名字：[{}]，  文件路径：[{}]", newfileName, dateDir);
 
 //        将文件信息放入数据库中
             arr[i] = new HashMap<>();
-            arr[i].put("downloadUrl",getPath(request)+ "/" +newfileName);
+            arr[i].put("downloadUrl", getPath(request) + "/" + newfileName);
             arr[i].put("fileId", newfileName);
-            arr[i].put("previewUrl", getPath(request) + "/" +newfileName);
+            arr[i].put("previewUrl", dataPath + "/" + newfileName);
             i++;
         }
-        map.put("code", 0);
+        map.put("code", 200);
         map.put("message", "string");
         map.put("result", arr);
         return map;
@@ -179,14 +219,14 @@ public class UpDataController {
 
     @ApiOperation("文件下载")
     @GetMapping("/download")
-    public Map download(String filePath, HttpServletResponse response,HttpServletRequest request) throws IOException {
+    public Map download(String filePath, HttpServletResponse response, HttpServletRequest request) throws IOException {
 
         String filePaths = filePath;
         log.info("filePath:{}", filePaths);
-        FileInputStream is = new FileInputStream(new File(getPath(request)+"/"+filePaths));
-        response.setHeader("content-disposition","attachment;fileName="+ URLEncoder.encode("2016级毕业生校外毕业实习相关材料.docx","UTF-8"));
+        FileInputStream is = new FileInputStream(new File(filePaths ));
+        response.setHeader("content-disposition", "attachment;fileName=" + URLEncoder.encode("2016级毕业生校外毕业实习相关材料.docx", "UTF-8"));
         ServletOutputStream os = response.getOutputStream();
-        IOUtils.copy(is,os);
+        IOUtils.copy(is, os);
         IOUtils.closeQuietly(is);
         IOUtils.closeQuietly(os);
         return new HashMap();
@@ -196,7 +236,7 @@ public class UpDataController {
      * @author snow
      * @description 得到项目的根目录的绝对路径
      */
-    public static String getPath(HttpServletRequest request){
+    public static String getPath(HttpServletRequest request) {
         String path = request.getSession().getServletContext().getRealPath("/");//表示到项目的根目录下，要是想到目录下的子文件夹，修改"/"即可
         path = path.replaceAll("\\\\", "/");
         return path;
@@ -204,6 +244,7 @@ public class UpDataController {
 
     /**
      * 多文件上传
+     *
      * @param files
      * @param request
      * @return

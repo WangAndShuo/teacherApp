@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -36,8 +33,8 @@ public class JobController {
 
     @ApiOperation(value = "创建作业")
     @PostMapping("/createJob")
-    public BaseResponse createJob(AppCreJob createJobVo){
-        if (StringUtils.isBlank(createJobVo.getUser())) {
+    public BaseResponse createJob(@RequestBody  AppCreJob createJobVo){
+        if (StringUtils.isBlank(createJobVo.getUserId())) {
             return BaseResponse.error("发布人为空");
         }
         if (StringUtils.isBlank(createJobVo.getClassName())) {
@@ -57,11 +54,21 @@ public class JobController {
         return jobService.selectJob(createJobVo);
     }
 
+    @ApiOperation(value = "查询某作业学生的成绩")
+    @PostMapping("/selectScore")
+    public BaseResponse selectScore(@RequestBody CreateJobVo createJobVo){
+        log.info("前端传来的数据：{}", createJobVo );
+        if (createJobVo == null) {
+            return BaseResponse.error("返回数据为空");
+        }
+        return jobService.selectJob(createJobVo);
+    }
 
-    public BaseResponse selectStrudentByJob(String jobId){
 
-
-        return jobService.selectStrudentByJob(jobId);
+    @ApiOperation(value = "查询学生用户下的所有作业")
+    @PostMapping("/selectJob/{jobId}")
+    public BaseResponse selectStrudentByJob(@PathVariable("jobId")  String jobId){
+        return jobService.selectScore(jobId);
     }
 
     public void get() throws IOException {
