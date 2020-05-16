@@ -50,7 +50,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public int updateByPrimaryKeySelective(AppUserinfo record) {
-        return 0;
+        return appUserinfoMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override

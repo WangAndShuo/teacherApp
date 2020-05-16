@@ -180,6 +180,16 @@ public class UserController extends BaseController {
         return  BaseResponse.build(StatusCode.TRUE);
     }
 
+    @ApiOperation(value = "用户信息更新", notes = "用户信息更新")
+    @PostMapping("/updataUserInfo")
+    public  BaseResponse updataUserInfo(@RequestBody AppUserinfo appUserinfo) {
+        log.info("【查询用户是否存在】： 用户名[{}]\t",appUserinfo);
 
+        int num = userInfoService.updateByPrimaryKeySelective(appUserinfo);
+        if(num == 1){
+            return  BaseResponse.ok("更新成功");
+        }
+        return  BaseResponse.error("更新失败");
+    }
 
 }

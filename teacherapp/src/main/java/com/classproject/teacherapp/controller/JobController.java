@@ -80,6 +80,14 @@ public class JobController {
     @PostMapping("/updateScore")
     public BaseResponse updateScore(@RequestBody AppScore appScore){
         log.info("前端传来的数据：{}", appScore );
+        if(appScore.getUserId() == null){
+            return  BaseResponse.error("用户id为空");
+        }
+        int score  = Integer.parseInt(appScore.getScore());
+        if(score < 0 && score > 100){
+            return  BaseResponse.error("成绩不符合规范");
+        }
+
         if (appScore == null) {
             return BaseResponse.error("返回数据为空");
         }

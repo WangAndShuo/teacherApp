@@ -33,9 +33,12 @@
     values (#{noteInfo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="note_id" keyProperty="noteId" parameterType="com.classproject.teacherapp.entity.AppNote" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.classproject.teacherapp.entity.AppNote" useGeneratedKeys="true">
     insert into app_note
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noteId != null">
+        note_id,
+      </if>
       <if test="noteInfo != null">
         note_info,
       </if>
@@ -47,6 +50,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noteId != null">
+        #{noteId,jdbcType=VARCHAR},
+      </if>
       <if test="noteInfo != null">
         #{noteInfo,jdbcType=VARCHAR},
       </if>

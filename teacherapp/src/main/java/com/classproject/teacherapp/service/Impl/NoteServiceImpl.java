@@ -4,10 +4,12 @@ import com.classproject.teacherapp.entity.AppNote;
 import com.classproject.teacherapp.mapper.AppNoteDao;
 import com.classproject.teacherapp.service.NoteService;
 import com.classproject.teacherapp.util.BaseResponse;
+import com.classproject.teacherapp.util.DateUtil;
 import com.classproject.teacherapp.util.UuidUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,7 +20,12 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public BaseResponse insertNote(AppNote appNote) {
         String UUID = UuidUtils.getUuid();
+        if(appNote.getNoteId() != null){
+            appNoteDao.updateByPrimaryKeySelective(appNote);
+            return BaseResponse.ok("修改便签成功");
+        }
         appNote.setNoteId(UUID);
+        appNote.setCreateTime(DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
         int i = appNoteDao.insertSelective(appNote);
         if(i == 0){
             return  BaseResponse.error("添加便签失败，请重试");

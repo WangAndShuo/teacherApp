@@ -7,5 +7,6 @@ server:
   port: 8081
 logging:
   file:
-    path: /home/WEB/
+    path: /home/
     name: server.log
+  path:  /home/logs

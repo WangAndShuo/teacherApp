@@ -66,7 +66,7 @@
     </select>
 
     <select id="selectScore" resultMap="ScoreMap" parameterType="String">
-        select UUID,class_name,user_name,grade,score,job_id,teacher
+        select UUID,class_name,user_id,user_name,grade,score,job_id,teacher
         from app_score
         where job_id = #{jobId,jdbcType=VARCHAR}
     </select>
@@ -135,7 +135,7 @@
                 #{uuid,jdbcType=VARCHAR},
             </if>
             <if test="classId!= null" >
-                #{classId,jdbcType=VARCHAR},,
+                #{classId,jdbcType=VARCHAR},
             </if>
             <if test="className != null" >
                 #{className,jdbcType=VARCHAR},
