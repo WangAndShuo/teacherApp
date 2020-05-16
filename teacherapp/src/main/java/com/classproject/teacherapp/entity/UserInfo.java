@@ -24,6 +24,7 @@ public class UserInfo {
 
     private String education;
 
+
     public String getUuid() {
         return uuid;
     }

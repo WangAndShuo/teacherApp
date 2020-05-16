@@ -15,11 +15,12 @@
         <result column="grade" property="grade" jdbcType="VARCHAR" />
         <result column="head" property="head" jdbcType="VARCHAR"/>
         <result column="teacher" property="teacher" jdbcType="VARCHAR" />
-
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="introduce" property="introduce" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List" >
-        uuid, name, sex, age, brithday, address, school, college, education,head, grade, teacher
+        uuid, name, sex, age, brithday, address, school, college, education,head, grade, teacher,username,introduce
     </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

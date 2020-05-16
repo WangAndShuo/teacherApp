@@ -5,6 +5,7 @@ import com.classproject.teacherapp.entity.AppScore;
 import com.classproject.teacherapp.entity.UserInfo;
 import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.vo.CreateJobVo;
+import com.classproject.teacherapp.vo.SelectScoreVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public interface AppCreJobMapper {
 
     List<AppScore>  selectScore(String jobId);
 
+    AppScore selectScoreOne(SelectScoreVo selectScoreVo);
+
     int insertScore(AppScore appScore);
 
+    int updateScore(AppScore appScore);
 }

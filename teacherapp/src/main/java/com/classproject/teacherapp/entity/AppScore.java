@@ -17,6 +17,17 @@ public class AppScore implements Serializable {
     private String className;
 
     /**
+     * 班级名称
+     */
+    private String classId;
+
+    /**
+     * 用户ID
+     *
+     */
+    private String userId;
+
+    /**
      * 用户名称
      */
     private String userName;

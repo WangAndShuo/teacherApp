@@ -12,13 +12,13 @@ import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.util.DateUtil;
 import com.classproject.teacherapp.util.UuidUtils;
 import com.classproject.teacherapp.vo.CreateJobVo;
+import com.classproject.teacherapp.vo.SelectScoreVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @ClassName JobServiceImpl
@@ -53,7 +53,9 @@ public class JobServiceImpl implements JobService {
         for (AppUserinfo userinfo :list) {
             AppScore score = new AppScore();
             score.setUuid(UuidUtils.getUuid());
+            score.setClassId(appCreJob.getClassId());
             score.setClassName(appCreJob.getClassName());
+            score.setUserId(userinfo.getUuid());
             score.setUserName(userinfo.getName());
             score.setTeacher(appCreJob.getUserId());
             score.setGrade(userinfo.getGrade());
@@ -63,7 +65,7 @@ public class JobServiceImpl implements JobService {
         if (count > 0) {
             return BaseResponse.ok("成功创建作业，该班级共有 "+list.size()+" 人");
         }
-        return BaseResponse.error("插入失败");
+        return BaseResponse.error("创建作业失败");
     }
 
     /**
@@ -102,7 +104,21 @@ public class JobServiceImpl implements JobService {
         if(list.size() == 0){
             return  BaseResponse.ok("数据为空");
         }
-        return BaseResponse.ok("成功",list);
+        return BaseResponse.ok("该作业共有"+list.size()+"人",list);
+    }
+
+    public BaseResponse selectScoreOne(SelectScoreVo selectScoreVo){
+        AppScore score = appCreJobMapper.selectScoreOne(selectScoreVo);
+        if(score == null){
+            return  BaseResponse.ok("没有查询到该用户成绩");
+        }
+        return BaseResponse.ok("用户成绩查询成功",score);
+    }
+
+    @Override
+    public BaseResponse updateScore(AppScore appScore) {
+        int num = appCreJobMapper.updateScore(appScore);
+        return  BaseResponse.ok("");
     }
 
 

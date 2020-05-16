@@ -67,4 +67,13 @@ public class AppUserinfo {
      */
     private String teacher;
 
+    /**
+     * 大数据姓名
+     */
+    private String username;
+
+    /**
+     * 介绍
+     */
+    private String introduce;
     }

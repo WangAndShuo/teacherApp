@@ -1,10 +1,12 @@
 package com.classproject.teacherapp.controller;
 
 import com.classproject.teacherapp.entity.AppCreJob;
+import com.classproject.teacherapp.entity.AppScore;
 import com.classproject.teacherapp.service.JobService;
 import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.util.StatusCode;
 import com.classproject.teacherapp.vo.CreateJobVo;
+import com.classproject.teacherapp.vo.SelectScoreVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -54,22 +56,42 @@ public class JobController {
         return jobService.selectJob(createJobVo);
     }
 
-    @ApiOperation(value = "查询某作业学生的成绩")
-    @PostMapping("/selectScore")
-    public BaseResponse selectScore(@RequestBody CreateJobVo createJobVo){
-        log.info("前端传来的数据：{}", createJobVo );
-        if (createJobVo == null) {
+    @ApiOperation(value = "查询某作业下的学生的成绩")
+    @GetMapping("/selectScore/{jobId}")
+    public BaseResponse selectScore(@PathVariable("jobId") String jobId){
+        log.info("前端传来的数据：{}", jobId );
+        if (jobId == "") {
             return BaseResponse.error("返回数据为空");
         }
-        return jobService.selectJob(createJobVo);
-    }
-
-
-    @ApiOperation(value = "查询学生用户下的所有作业")
-    @PostMapping("/selectJob/{jobId}")
-    public BaseResponse selectStrudentByJob(@PathVariable("jobId")  String jobId){
         return jobService.selectScore(jobId);
     }
+
+    @ApiOperation(value = "查询一个学生的成绩")
+    @PostMapping("/selectScoreOne")
+    public BaseResponse selectScoreOne(@RequestBody SelectScoreVo selectScoreVo){
+        log.info("前端传来的数据：{}", selectScoreVo );
+        if (selectScoreVo == null) {
+            return BaseResponse.error("返回数据为空");
+        }
+        return jobService.selectScoreOne(selectScoreVo);
+    }
+
+    @ApiOperation(value = "更新成绩")
+    @PostMapping("/updateScore")
+    public BaseResponse updateScore(@RequestBody AppScore appScore){
+        log.info("前端传来的数据：{}", appScore );
+        if (appScore == null) {
+            return BaseResponse.error("返回数据为空");
+        }
+        return jobService.updateScore(appScore);
+    }
+
+
+//    @ApiOperation(value = "查询学生用户下的所有作业")
+//    @PostMapping("/selectJob/{jobId}")
+//    public BaseResponse selectStrudentByJob(@PathVariable("jobId")  String jobId){
+//        return jobService.selectScore(jobId);
+//    }
 
     public void get() throws IOException {
         SocketChannel socketChannel = SocketChannel.open();

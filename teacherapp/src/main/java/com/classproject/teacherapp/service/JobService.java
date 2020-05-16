@@ -1,8 +1,10 @@
 package com.classproject.teacherapp.service;
 
 import com.classproject.teacherapp.entity.AppCreJob;
+import com.classproject.teacherapp.entity.AppScore;
 import com.classproject.teacherapp.util.BaseResponse;
 import com.classproject.teacherapp.vo.CreateJobVo;
+import com.classproject.teacherapp.vo.SelectScoreVo;
 
 import java.util.List;
 
@@ -41,4 +43,18 @@ public interface JobService {
      * @return
      */
     BaseResponse selectScore(String jobId);
+
+    /**
+     * 查询某人成绩
+     * @param selectScoreVo
+     * @return
+     */
+    BaseResponse selectScoreOne(SelectScoreVo selectScoreVo);
+
+    /**
+     * 修改成绩
+     * @param appScore
+     * @return
+     */
+    BaseResponse updateScore(AppScore appScore);
 }
